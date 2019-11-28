@@ -13,7 +13,12 @@
 
 
 void usage(char *app_name) {
-    printf("Usage: %s [options] file_in [file_out]\n", app_name);
+    fprintf(stderr, "Usage: %s [options] { ModelSpec1 ModelSpec2 .... } [max_dist] \n", app_name);
+    fprintf(stderr, "           options: -o OutputFile          : Save result to OutputFile\n");
+    fprintf(stderr, "                    -p                     : Build an OSG::PagedLOD\n");
+    fprintf(stderr, "                    -c min_dist            : Use min_dist as closest view distance\n");
+    fprintf(stderr, "                    -s scale_dist          : Use scale_dist to increase range distances\n");
+    fprintf(stderr, "           ModelSpec: [ min_dist ] ModelFilename\n");
     exit(1);
 }
 
@@ -21,8 +26,6 @@ int main(int argc, char* argv[])
 {
 //	osg::Matrix myMatrix;
 
-    int runViewer = 0;
-    
     char *fout_name = NULL;
     char *app_name = argv[0];
     float startDist = 0.1;
