@@ -15,7 +15,9 @@
 void usage(char *app_name) {
     fprintf(stderr, "Usage: %s [options] { ModelSpec1 ModelSpec2 .... } [max_dist] \n", app_name);
     fprintf(stderr, "           options: -o OutputFile          : Save result to OutputFile\n");
+    fprintf(stderr, "                    -g                     : Build an OSG::Group, without LOD");
     fprintf(stderr, "                    -p                     : Build an OSG::PagedLOD\n");
+    fprintf(stderr, "                    -y                     : Build an OSG::Layer\n");
     fprintf(stderr, "                    -c min_dist            : Use min_dist as closest view distance\n");
     fprintf(stderr, "                    -s scale_dist          : Use scale_dist to increase range distances\n");
     fprintf(stderr, "           ModelSpec: [ min_dist ] ModelFilename\n");
@@ -31,6 +33,7 @@ int main(int argc, char* argv[])
     float startDist = 0.1;
     float scaleDist = 10.;
     int pagedLod = 0;
+    int groupNode = 0;
     float endDist = startDist*scaleDist;
     argc--;
     argv++;
@@ -47,6 +50,8 @@ int main(int argc, char* argv[])
             case 'p':           // PagedLOD
                 pagedLod = 1;
                 break;
+            case 'g':
+                groupNode = 1;
             case 'c':           // Closest distance
                 if ( strlen(argv[0])>2 ) {
                     startDist = atof(argv[0]+2);
