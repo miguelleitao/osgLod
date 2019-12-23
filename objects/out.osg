@@ -1,0 +1,160 @@
+Group {
+  nodeMask 0xffffffff
+  cullingActive TRUE
+  num_children 2
+  Group {
+    nodeMask 0xffffffff
+    cullingActive TRUE
+    StateSet {
+      rendering_hint DEFAULT_BIN
+      renderBinMode INHERIT
+      GL_POLYGON_OFFSET_POINT OVERRIDE|ON
+      GL_POLYGON_OFFSET_LINE OVERRIDE|ON
+      GL_POLYGON_OFFSET_FILL OVERRIDE|ON
+      PolygonOffset {
+        factor -0.1
+        units  -1
+      }
+    }
+    num_children 1
+    Geode {
+      nodeMask 0xffffffff
+      cullingActive TRUE
+      num_drawables 1
+      Geometry {
+        StateSet {
+          rendering_hint DEFAULT_BIN
+          renderBinMode INHERIT
+          Material {
+            name "over_mtl"
+            ColorMode OFF
+            ambientColor 0 0 0 1
+            diffuseColor 0.698039 0.698039 0.698039 1
+            specularColor 0 0 0 1
+            emissionColor 0 0 0 1
+            shininess 1.152
+          }
+        }
+        useDisplayList TRUE
+        useVertexBufferObjects FALSE
+        PrimitiveSets 1
+        {
+          DrawElementsUShort TRIANGLE_STRIP 4
+          {
+            1 2 0 3 
+          }
+        }
+        VertexArray Vec3Array 4
+        {
+          -1 -10 0
+          1 -10 0
+          1 10 0
+          -1 10 0
+        }
+        NormalBinding PER_VERTEX
+        NormalArray Vec3Array 4
+        {
+          0 -0 1
+          0 -0 1
+          0 -0 1
+          0 -0 1
+        }
+        TexCoordArray 0 Vec2Array 4
+        {
+          0 1
+          1 1
+          1 0
+          0 0
+        }
+      }
+    }
+  }
+  Group {
+    nodeMask 0xffffffff
+    cullingActive TRUE
+    StateSet {
+      rendering_hint DEFAULT_BIN
+      renderBinMode INHERIT
+      GL_POLYGON_OFFSET_POINT OVERRIDE|ON
+      GL_POLYGON_OFFSET_LINE OVERRIDE|ON
+      GL_POLYGON_OFFSET_FILL OVERRIDE|ON
+      PolygonOffset {
+        factor -1
+        units  -1
+      }
+    }
+    num_children 1
+    Geode {
+      nodeMask 0xffffffff
+      cullingActive TRUE
+      num_drawables 1
+      Geometry {
+        StateSet {
+          rendering_hint DEFAULT_BIN
+          renderBinMode INHERIT
+          Material {
+            name "base_mtl"
+            ColorMode OFF
+            ambientColor 0 0 0 1
+            diffuseColor 0.698039 0.698039 0.698039 1
+            specularColor 0 0 0 1
+            emissionColor 0 0 0 1
+            shininess 1.152
+          }
+          textureUnit 0 {
+            GL_TEXTURE_2D ON
+            Texture2D {
+              file "planes.jpg"
+              wrap_s REPEAT
+              wrap_t REPEAT
+              wrap_r REPEAT
+              min_filter LINEAR_MIPMAP_LINEAR
+              mag_filter LINEAR
+              maxAnisotropy 1
+              borderColor 0 0 0 0
+              borderWidth 0
+              useHardwareMipMapGeneration TRUE
+              unRefImageDataAfterApply FALSE
+              internalFormatMode USE_IMAGE_DATA_FORMAT
+              resizeNonPowerOfTwo TRUE
+              shadowComparison FALSE
+              shadowCompareFunc GL_LEQUAL
+              shadowTextureMode GL_LUMINANCE
+            }
+          }
+        }
+        useDisplayList TRUE
+        useVertexBufferObjects FALSE
+        PrimitiveSets 1
+        {
+          DrawElementsUShort TRIANGLE_STRIP 4
+          {
+            1 2 0 3 
+          }
+        }
+        VertexArray Vec3Array 4
+        {
+          -10 -10 0
+          10 -10 0
+          10 10 0
+          -10 10 0
+        }
+        NormalBinding PER_VERTEX
+        NormalArray Vec3Array 4
+        {
+          0 -0 1
+          0 -0 1
+          0 -0 1
+          0 -0 1
+        }
+        TexCoordArray 0 Vec2Array 4
+        {
+          0 1
+          1 1
+          1 0
+          0 0
+        }
+      }
+    }
+  }
+}

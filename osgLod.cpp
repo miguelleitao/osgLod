@@ -1,6 +1,6 @@
 /*
 	osgLod.cpp 
-	create an OSG::LOD node Object from extranl lodable models.
+	create an OSG::LOD node Object from external loadable models.
 	Miguel Leitao, ISEP, 2019
 */
 
@@ -10,6 +10,7 @@
 #include <osgDB/WriteFile>
 #include <osg/MatrixTransform>
 #include <osgGA/TrackballManipulator>
+#include <osg/PolygonOffset>
 
 
 void usage(char *app_name) {
@@ -23,6 +24,28 @@ void usage(char *app_name) {
     fprintf(stderr, "                    -s scale_dist          : Use scale_dist to increase range distances\n");
     fprintf(stderr, "           ModelSpec: [ min_dist ] ModelFilename\n");
     exit(1);
+}
+
+
+void addBillboardGroup(osg::Billboard *bb, osg::Group *grp) {
+    for( unsigned int i=0 ; i< grp->getNumChildren() ; i++ ) {
+        osg::Node *node = grp->getChild(i);
+        osg::Geode *ngeo = node->asGeode();
+        if ( ngeo ) {
+            // parse all drawables
+            for( unsigned int d=0 ; d<ngeo->getNumDrawables() ; d++ ) {
+                osg::Drawable *dd = ngeo->getDrawable(d);
+                bb->addDrawable(dd);
+                printf("Drawable added\n");
+            }
+            continue;
+        }
+        osg::Group *ngrp = node->asGroup();
+        if ( ngrp ) {
+            addBillboardGroup(bb, ngrp);
+        }
+    }
+    
 }
 
 int main(int argc, char* argv[])
@@ -97,10 +120,28 @@ int main(int argc, char* argv[])
     
 	// Creating the root node
     osg::Group* SceneRoot;
-    if ( pagedLod )
-        SceneRoot = new osg::PagedLOD;
-    else
-        SceneRoot = new osg::LOD;
+    switch ( nodeType) {
+        case 'l':
+            SceneRoot = new osg::LOD;
+            break;
+        case 'p':
+            SceneRoot = new osg::PagedLOD;
+            break;
+        case 'g':
+            SceneRoot = new osg::Group;
+            break;
+        case 'y':
+            SceneRoot = new osg::Group;
+            break;
+        case 'b':
+            SceneRoot = new osg::Group;
+            break;
+        default:
+            fprintf(stderr,"Error. Unkown node type.\n");
+            exit(1);
+            break;
+    }
+
     unsigned int childNo = 0;
     while( argc>0 ) {
         if ( ( nodeType=='l' || nodeType=='p' ) && argv[0][0]>='0' && argv[0][0]<='9' ) {
@@ -113,18 +154,57 @@ int main(int argc, char* argv[])
             }
         }
         else {
-            if ( pagedLod ) {
-                osg::PagedLOD *rNode = dynamic_cast<osg::PagedLOD*>(SceneRoot);
-                //dynamic_cast<osg::PagedLOD*>(SceneRoot)->setFileName(childNo, *argv);
-                rNode->setFileName(childNo, *argv);
-                rNode->setRange(childNo,startDist,endDist);
+            osg::Node* loadedModel;
+            switch( nodeType ) {
+                case 'p': {
+                        osg::PagedLOD *nodePLOD = dynamic_cast<osg::PagedLOD*>(SceneRoot);
+                        //dynamic_cast<osg::PagedLOD*>(SceneRoot)->setFileName(childNo, *argv);
+                        nodePLOD->setFileName(childNo, *argv);
+                        nodePLOD->setRange(childNo,startDist,endDist);
+                    }   
+                    break;
+                case 'l': { 
+                        osg::LOD *rNode = dynamic_cast<osg::LOD*>(SceneRoot);
+                        loadedModel = osgDB::readNodeFile(*argv);
+                        rNode->addChild(loadedModel,startDist,endDist);
+                    }
+                    break;
+                case 'g':
+                    loadedModel = osgDB::readNodeFile(*argv);
+                    SceneRoot->addChild(loadedModel);
+                    break;
+                case 'b': {
+                        loadedModel = osgDB::readNodeFile(*argv);
+                        osg::Billboard *bb = new osg::Billboard();
+                        bb->setMode(osg::Billboard::AXIAL_ROT);
+                        bb->setAxis(osg::Vec3(0.0f,0.0f,1.0f));
+                        bb->setNormal(osg::Vec3(0.0f,-1.0f,0.0f));
+                        addBillboardGroup(bb,loadedModel->asGroup());
+                        /*
+                        bb->addDrawable(
+                            createSquare(osg::Vec3(-0.5f,0.0f,-0.5f),osg::Vec3(1.0f,0.0f,0.0f),osg::Vec3(0.0f,0.0f,1.0f),osgDB::readRefImageFile("Cubemap_axis/posz.png")),
+                            osg::Vec3(0.0f,0.0f,5.0f));
+    */
+                        SceneRoot->addChild(bb);
+                    }
+                    break;
+                case 'y':
+                    loadedModel = osgDB::readNodeFile(*argv);
+                    osg::StateSet *ss = loadedModel->getOrCreateStateSet();
+                    if (ss) { 
+                        osg::ref_ptr<osg::PolygonOffset> polyoffset = new osg::PolygonOffset;
+                        polyoffset->setFactor(-startDist);
+                        polyoffset->setUnits(-1.0f);
+                        ss->setAttributeAndModes(polyoffset,osg::StateAttribute::OVERRIDE|osg::StateAttribute::ON);
+                    }
+                    else 
+                        fprintf(stderr,"Couldnot get StateSet\n");
+                    //loadedModel->setStateSet(ss);
+                    SceneRoot->addChild(loadedModel);
+                    endDist = (float)(childNo+1);
+                    break;
             }
-            else {
-                osg::LOD *rNode = dynamic_cast<osg::LOD*>(SceneRoot);
-                osg::Node* loadedModel = osgDB::readNodeFile(*argv);
-                rNode->addChild(loadedModel,startDist,endDist);
-            }
-            //printf("Child %u added with range %f,%f\n", childNo,startDist,endDist);
+            printf("Child %u added with range %f,%f\n", childNo,startDist,endDist);
             startDist = endDist;
             endDist *= scaleDist;
             childNo++;
@@ -133,7 +213,8 @@ int main(int argc, char* argv[])
         argv++;
     }
    
-
+    printf("All objects loaded\n");
+    
     if ( fout_name ) {
         osgDB::writeNodeFile(*(SceneRoot), fout_name);
         //osgDB::writeNodeFile(*(SceneRoot), "scene.osg");
