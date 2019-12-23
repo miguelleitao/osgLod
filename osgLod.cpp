@@ -18,6 +18,7 @@ void usage(char *app_name) {
     fprintf(stderr, "                    -g                     : Build an OSG::Group, without LOD");
     fprintf(stderr, "                    -p                     : Build an OSG::PagedLOD\n");
     fprintf(stderr, "                    -y                     : Build an OSG::Layer\n");
+    fprintf(stderr, "                    -b                     : Build an OSG::BillBoard\n");
     fprintf(stderr, "                    -c min_dist            : Use min_dist as closest view distance\n");
     fprintf(stderr, "                    -s scale_dist          : Use scale_dist to increase range distances\n");
     fprintf(stderr, "           ModelSpec: [ min_dist ] ModelFilename\n");
@@ -32,6 +33,7 @@ int main(int argc, char* argv[])
     char *app_name = argv[0];
     float startDist = 0.1;
     float scaleDist = 10.;
+    char  nodeType = ' ';
     int pagedLod = 0;
     int groupNode = 0;
     float endDist = startDist*scaleDist;
@@ -47,11 +49,21 @@ int main(int argc, char* argv[])
                 if ( argc<=0 ) usage(app_name);
                 fout_name = argv[0];
                 break;
+            case 'p':
+            case 'g':
+            case 'y':
+            case 'b':
+                nodeType = argv[0][1];
+                break;
+                /*
             case 'p':           // PagedLOD
                 pagedLod = 1;
                 break;
             case 'g':
                 groupNode = 1;
+                break;
+            case 'y':
+                */
             case 'c':           // Closest distance
                 if ( strlen(argv[0])>2 ) {
                     startDist = atof(argv[0]+2);
@@ -81,31 +93,36 @@ int main(int argc, char* argv[])
     }
     
     //printf("startDist: %f, argc:%d, argv:%s\n", startDist, argc, *argv);
+    if ( nodeType==' ' ) nodeType = 'l';
     
 	// Creating the root node
-    osg::LOD* SceneRoot;
+    osg::Group* SceneRoot;
     if ( pagedLod )
         SceneRoot = new osg::PagedLOD;
     else
         SceneRoot = new osg::LOD;
     unsigned int childNo = 0;
     while( argc>0 ) {
-        if ( argv[0][0]>='0' && argv[0][0]<='9' ) {
+        if ( ( nodeType=='l' || nodeType=='p' ) && argv[0][0]>='0' && argv[0][0]<='9' ) {
             startDist = atof(*argv);
             endDist = startDist * scaleDist;
-            if ( childNo>0 ) { 
-                float min = SceneRoot->getMinRange(childNo-1);
-                SceneRoot->setRange(childNo-1,min,startDist);
+            if ( childNo>0 ) {
+                osg::LOD *rNode = dynamic_cast<osg::LOD*>(SceneRoot);
+                float min = rNode->getMinRange(childNo-1);
+                rNode->setRange(childNo-1,min,startDist);
             }
         }
         else {
             if ( pagedLod ) {
-                dynamic_cast<osg::PagedLOD*>(SceneRoot)->setFileName(childNo, *argv);
-                SceneRoot->setRange(childNo,startDist,endDist);
+                osg::PagedLOD *rNode = dynamic_cast<osg::PagedLOD*>(SceneRoot);
+                //dynamic_cast<osg::PagedLOD*>(SceneRoot)->setFileName(childNo, *argv);
+                rNode->setFileName(childNo, *argv);
+                rNode->setRange(childNo,startDist,endDist);
             }
             else {
+                osg::LOD *rNode = dynamic_cast<osg::LOD*>(SceneRoot);
                 osg::Node* loadedModel = osgDB::readNodeFile(*argv);
-                SceneRoot->addChild(loadedModel,startDist,endDist);
+                rNode->addChild(loadedModel,startDist,endDist);
             }
             //printf("Child %u added with range %f,%f\n", childNo,startDist,endDist);
             startDist = endDist;
