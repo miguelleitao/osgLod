@@ -32,3 +32,5 @@ osgLod
 *.exe
 *.out
 *.app
+vgcore*
+out*
