@@ -1,6 +1,6 @@
 /*
 	osgLod.cpp 
-	create an OSG::LOD node Object from external loadable models.
+	create an osg::LOD, osg::PaggedLOD, osg::Group or osgBillboard node from external loadable models.
 	Miguel Leitao, ISEP, 2019
 */
 
@@ -36,29 +36,23 @@ void addBillboardGroup(osg::Billboard *bb, osg::Group *grp) {
             for( unsigned int d=0 ; d<ngeo->getNumDrawables() ; d++ ) {
                 osg::Drawable *dd = ngeo->getDrawable(d);
                 bb->addDrawable(dd);
-                printf("Drawable added\n");
             }
             continue;
         }
         osg::Group *ngrp = node->asGroup();
-        if ( ngrp ) {
+        if ( ngrp ) 
             addBillboardGroup(bb, ngrp);
-        }
     }
     
 }
 
 int main(int argc, char* argv[])
 {
-//	osg::Matrix myMatrix;
-
     char *fout_name = NULL;
     char *app_name = argv[0];
     float startDist = 0.1;
     float scaleDist = 10.;
     char  nodeType = ' ';
-    int pagedLod = 0;
-    int groupNode = 0;
     float endDist = startDist*scaleDist;
     argc--;
     argv++;
@@ -78,19 +72,9 @@ int main(int argc, char* argv[])
             case 'b':
                 nodeType = argv[0][1];
                 break;
-                /*
-            case 'p':           // PagedLOD
-                pagedLod = 1;
-                break;
-            case 'g':
-                groupNode = 1;
-                break;
-            case 'y':
-                */
             case 'c':           // Closest distance
-                if ( strlen(argv[0])>2 ) {
+                if ( strlen(argv[0])>2 ) 
                     startDist = atof(argv[0]+2);
-                }
                 else {
                     argc--;
                     argv++;
@@ -98,9 +82,8 @@ int main(int argc, char* argv[])
                 }
                 break;
             case 's':           // Scale distance
-                 if ( strlen(argv[0])>2 ) {
+                 if ( strlen(argv[0])>2 ) 
                     scaleDist = atof(argv[0]+2);
-                }
                 else {
                     argc--;
                     argv++;
@@ -115,7 +98,6 @@ int main(int argc, char* argv[])
         argv++;
     }
     
-    //printf("startDist: %f, argc:%d, argv:%s\n", startDist, argc, *argv);
     if ( nodeType==' ' ) nodeType = 'l';
     
 	// Creating the root node
@@ -180,11 +162,6 @@ int main(int argc, char* argv[])
                         bb->setAxis(osg::Vec3(0.0f,0.0f,1.0f));
                         bb->setNormal(osg::Vec3(0.0f,-1.0f,0.0f));
                         addBillboardGroup(bb,loadedModel->asGroup());
-                        /*
-                        bb->addDrawable(
-                            createSquare(osg::Vec3(-0.5f,0.0f,-0.5f),osg::Vec3(1.0f,0.0f,0.0f),osg::Vec3(0.0f,0.0f,1.0f),osgDB::readRefImageFile("Cubemap_axis/posz.png")),
-                            osg::Vec3(0.0f,0.0f,5.0f));
-    */
                         SceneRoot->addChild(bb);
                     }
                     break;
@@ -199,12 +176,10 @@ int main(int argc, char* argv[])
                     }
                     else 
                         fprintf(stderr,"Couldnot get StateSet\n");
-                    //loadedModel->setStateSet(ss);
                     SceneRoot->addChild(loadedModel);
                     endDist = (float)(childNo+1);
                     break;
             }
-            printf("Child %u added with range %f,%f\n", childNo,startDist,endDist);
             startDist = endDist;
             endDist *= scaleDist;
             childNo++;
@@ -212,13 +187,10 @@ int main(int argc, char* argv[])
         argc--;
         argv++;
     }
-   
-    printf("All objects loaded\n");
+    //printf("All objects loaded\n");
     
-    if ( fout_name ) {
+    if ( fout_name ) 
         osgDB::writeNodeFile(*(SceneRoot), fout_name);
-        //osgDB::writeNodeFile(*(SceneRoot), "scene.osg");
-    }
     else {
         // Creating the viewer
         osgViewer::Viewer viewer ;

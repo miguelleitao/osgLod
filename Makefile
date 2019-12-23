@@ -15,11 +15,12 @@ ${TARGET}.o: ${TARGET}.cpp
 	g++  -Wall -O2  -c ${INC_OSG} $<
 
 test: ${TARGET}
-	./${TARGET} -o outLOD.osg ${OBJDIR}/obj1.obj ${OBJDIR}/obj2.obj ${OBJDIR}/obj3.obj
-	./${TARGET} -o outPLOD.osg -p ${OBJDIR}/obj1.obj ${OBJDIR}/obj2.obj ${OBJDIR}/obj3.obj
-	./${TARGET} -o outGRP.osg -g ${OBJDIR}/obj1.obj ${OBJDIR}/obj2.obj ${OBJDIR}/obj3.obj
-	./${TARGET} -o outLayer.osg -y ${OBJDIR}/obj1.obj ${OBJDIR}/base.obj ${OBJDIR}/over.obj
-	./${TARGET} -o outBB.osg -b ${OBJDIR}/obj1.obj
+	mkdir -p test
+	./${TARGET} -o test/outLOD.osg ${OBJDIR}/obj1.obj ${OBJDIR}/obj2.obj ${OBJDIR}/obj3.obj
+	./${TARGET} -o test/outPLOD.osg -p ${OBJDIR}/obj1.obj ${OBJDIR}/obj2.obj ${OBJDIR}/obj3.obj
+	./${TARGET} -o test/outGRP.osg -g ${OBJDIR}/obj1.obj ${OBJDIR}/obj2.obj ${OBJDIR}/obj3.obj
+	./${TARGET} -o test/outLayer.osg -y ${OBJDIR}/obj1.obj ${OBJDIR}/base.obj ${OBJDIR}/over.obj
+	./${TARGET} -o test/outBB.osg -b ${OBJDIR}/obj1.obj
 
 
 push:
