@@ -1,0 +1,89 @@
+Group {
+  nodeMask 0xffffffff
+  cullingActive TRUE
+  num_children 1
+  Billboard {
+    nodeMask 0xffffffff
+    cullingActive TRUE
+    num_drawables 1
+    Geometry {
+      UniqueID Geometry_0
+      DataVariance STATIC
+      StateSet {
+        DataVariance STATIC
+        rendering_hint TRANSPARENT_BIN
+        renderBinMode USE
+        binNumber 10
+        binName DepthSortedBin
+        GL_BLEND ON
+        Material {
+          name "material_1"
+          ColorMode OFF
+          ambientColor 0.5882 0.5882 0.5882 1
+          diffuseColor 0.5882 0.5882 0.5882 1
+          specularColor 0 0 0 1
+          emissionColor 0 0 0 1
+          shininess 0
+        }
+        textureUnit 0 {
+          GL_TEXTURE_2D ON
+          Texture2D {
+            file "/home/jml/osgLod/objects/arvore1.rgb"
+            wrap_s REPEAT
+            wrap_t REPEAT
+            wrap_r REPEAT
+            min_filter LINEAR_MIPMAP_LINEAR
+            mag_filter LINEAR
+            maxAnisotropy 1
+            borderColor 0 0 0 0
+            borderWidth 0
+            useHardwareMipMapGeneration TRUE
+            unRefImageDataAfterApply TRUE
+            internalFormatMode USE_IMAGE_DATA_FORMAT
+            resizeNonPowerOfTwo TRUE
+            shadowComparison FALSE
+            shadowCompareFunc GL_LEQUAL
+            shadowTextureMode GL_LUMINANCE
+          }
+        }
+      }
+      useDisplayList TRUE
+      useVertexBufferObjects FALSE
+      PrimitiveSets 1
+      {
+        DrawElementsUShort TRIANGLE_STRIP 4
+        {
+          0 1 2 3 
+        }
+      }
+      VertexArray Vec3Array 4
+      {
+        -7.50265 -0.001523 14.554
+        -7.50265 0.001523 -0.406
+        7.45735 -0.001523 14.554
+        7.45735 0.001523 -0.406
+      }
+      NormalBinding PER_VERTEX
+      NormalArray Vec3Array 4
+      {
+        0 -1 -0.000204
+        0 -1 -0.000204
+        0 -1 -0.000204
+        0 -1 -0.000204
+      }
+      TexCoordArray 0 Vec2Array 4
+      {
+        0 0.98
+        0 0
+        1 0.98
+        1 0
+      }
+    }
+    Mode AXIAL_ROT
+    Axis 0 0 1
+    Normal 0 -1 0
+    Positions {
+      0 0 0
+    }
+  }
+}

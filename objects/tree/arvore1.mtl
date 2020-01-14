@@ -1,0 +1,6 @@
+newmtl material_1
+       Ka 0.5882 0.5882 0.5882 1
+       Kd 0.5882 0.5882 0.5882 1
+       Ks 0 0 0 1
+       map_Kd /home/jml/osgLod/objects/arvore1.rgb
+

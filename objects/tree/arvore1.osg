@@ -1,0 +1,132 @@
+Group {
+  name "/home/jml/dirs_old/models/SafeSpeed/SafeSpeed/arvore1.flt"
+  nodeMask 0xffffffff
+  cullingActive TRUE
+  num_children 1
+  Group {
+    name "g1"
+    nodeMask 0xffffffff
+    cullingActive TRUE
+    num_children 1
+    Group {
+      name "g2"
+      nodeMask 0xffffffff
+      cullingActive TRUE
+      num_children 1
+      Group {
+        name "arvore_s"
+        nodeMask 0xffffffff
+        cullingActive TRUE
+        num_children 1
+        Group {
+          name "Plane01-FACES"
+          nodeMask 0xffffffff
+          cullingActive TRUE
+          num_children 1
+          Geode {
+            DataVariance STATIC
+            name "f0"
+            nodeMask 0xffffffff
+            cullingActive TRUE
+            StateSet {
+              DataVariance STATIC
+              rendering_hint TRANSPARENT_BIN
+              renderBinMode USE
+              binNumber 10
+              binName DepthSortedBin
+              GL_CULL_FACE ON
+              GL_LIGHTING ON
+              GL_BLEND ON
+              Material {
+                name "surface"
+                ColorMode OFF
+                ambientColor 0.5882 0.5882 0.5882 1
+                diffuseColor 0.5882 0.5882 0.5882 1
+                specularColor 0 0 0 1
+                emissionColor 0 0 0 1
+                shininess 11.52
+              }
+              CullFace {
+                UniqueID CullFace_0
+                mode BACK
+              }
+              BlendFunc {
+                UniqueID BlendFunc_1
+                source SRC_ALPHA
+                destination ONE_MINUS_SRC_ALPHA
+              }
+              textureUnit 0 {
+                GL_TEXTURE_2D ON
+                Texture2D {
+                  file "/home/jml/dirs_old/models/SafeSpeed/SafeSpeed/arvore1.rgb"
+                  wrap_s CLAMP
+                  wrap_t CLAMP
+                  wrap_r CLAMP
+                  min_filter LINEAR_MIPMAP_LINEAR
+                  mag_filter LINEAR
+                  maxAnisotropy 1
+                  borderColor 0 0 0 0
+                  borderWidth 0
+                  useHardwareMipMapGeneration TRUE
+                  unRefImageDataAfterApply TRUE
+                  internalFormatMode USE_USER_DEFINED_FORMAT
+                  internalFormat 32854
+                  resizeNonPowerOfTwo TRUE
+                  shadowComparison FALSE
+                  shadowCompareFunc GL_LEQUAL
+                  shadowTextureMode GL_LUMINANCE
+                }
+                TexEnv {
+                  mode MODULATE
+                }
+              }
+            }
+            num_drawables 1
+            Geometry {
+              DataVariance STATIC
+              useDisplayList TRUE
+              useVertexBufferObjects FALSE
+              PrimitiveSets 1
+              {
+                DrawArrays TRIANGLES 0 6
+              }
+              VertexArray Vec3Array 6
+              {
+                -7.50265 -0.00152333 14.554
+                -7.50265 0.00152333 -0.406
+                7.45735 -0.00152333 14.554
+                7.45735 0.00152333 -0.406
+                7.45735 -0.00152333 14.554
+                -7.50265 0.00152333 -0.406
+              }
+              NormalBinding PER_VERTEX
+              NormalArray Vec3Array 6
+              {
+                0 -1 -0.000203653
+                0 -1 -0.000203653
+                0 -1 -0.000203653
+                0 -1 -0.000203653
+                0 -1 -0.000203653
+                0 -1 -0.000203653
+              }
+              ColorBinding OVERALL
+              ColorArray Vec4Array 1
+              {
+                1 1 1 1
+              }
+              TexCoordArray 0 Vec2Array 6
+              {
+                0 1
+                0 0
+                1 1
+                1 0
+                1 1
+                0 0
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

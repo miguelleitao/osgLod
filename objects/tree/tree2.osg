@@ -1,0 +1,83 @@
+Group {
+  name "tree2.osg"
+  nodeMask 0xffffffff
+  cullingActive TRUE
+  num_children 1
+  Geode {
+    nodeMask 0xffffffff
+    cullingActive TRUE
+    num_drawables 1
+    Geometry {
+      DataVariance STATIC
+      StateSet {
+        DataVariance STATIC
+        rendering_hint TRANSPARENT_BIN
+        renderBinMode USE
+        binNumber 10
+        binName DepthSortedBin
+        GL_BLEND ON
+        Material {
+          name "tree"
+          ColorMode OFF
+          ambientColor 1. 1. 1. 1
+          diffuseColor 0.598039 0.598039 0.598039 1
+          specularColor 0 0 0 1
+          emissionColor 0 0 0 1
+          shininess 1.152
+        }
+        textureUnit 0 {
+          GL_TEXTURE_2D ON
+          Texture2D {
+            file "tree2.png"
+            wrap_s REPEAT
+            wrap_t REPEAT
+            wrap_r REPEAT
+            min_filter LINEAR_MIPMAP_LINEAR
+            mag_filter LINEAR
+            maxAnisotropy 1
+            borderColor 0 0 0 0
+            borderWidth 0
+            useHardwareMipMapGeneration TRUE
+            unRefImageDataAfterApply TRUE
+            internalFormatMode USE_IMAGE_DATA_FORMAT
+            resizeNonPowerOfTwo TRUE
+            shadowComparison FALSE
+            shadowCompareFunc GL_LEQUAL
+            shadowTextureMode GL_LUMINANCE
+          }
+        }
+      }
+      useDisplayList TRUE
+      useVertexBufferObjects FALSE
+      PrimitiveSets 1
+      {
+        DrawElementsUShort TRIANGLE_STRIP 4
+        {
+          1 2 0 3 
+        }
+      }
+      VertexArray Vec3Array 4
+      {
+        -5 -0 0
+        5 -0 0
+        5 -0 12
+        -5 -0 12
+      }
+      NormalBinding PER_VERTEX
+      NormalArray Vec3Array 4
+      {
+        0 -0 -1
+        0 -0 -1
+        0 -0 -1
+        0 -0 -1
+      }
+      TexCoordArray 0 Vec2Array 4
+      {
+        0 0
+        1 0
+        1 1
+        0 1
+      }
+    }
+  }
+}
