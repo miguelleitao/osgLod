@@ -1,7 +1,8 @@
 /*
-	osgLod.cpp 
-	create an osg::LOD, osg::PaggedLOD, osg::Group or osgBillboard node from external loadable models.
-	Miguel Leitao, ISEP, 2019
+ *	osgLod.cpp 
+ *	create an osg::LOD, osg::PaggedLOD, osg::Group or osgBillboard node from external loadable models.
+ *
+ *	Miguel Leitao, ISEP, 2019
 */
 
 
