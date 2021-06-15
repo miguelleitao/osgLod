@@ -14,4 +14,4 @@ Build an osg::LOD node from a set of external object models.
 
 ModelSpecs must be listed from closest for farther.
 
-If OutputFile is not specified, the produced modle is shown in an interactive viewer.
+If OutputFile is not specified, the produced model is shown in an interactive viewer.
