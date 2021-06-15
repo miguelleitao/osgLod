@@ -16,7 +16,7 @@
 void usage(char *app_name) {
     fprintf(stderr, "Usage: %s [options] { ModelSpec1 ModelSpec2 .... } [max_dist] \n", app_name);
     fprintf(stderr, "           options: -o OutputFile          : Save result to OutputFile\n");
-    fprintf(stderr, "                    -g                     : Build an OSG::Group, without LOD");
+    fprintf(stderr, "                    -g                     : Build an OSG::Group, without LOD\n");
     fprintf(stderr, "                    -p                     : Build an OSG::PagedLOD\n");
     fprintf(stderr, "                    -y                     : Build an OSG::Layer\n");
     fprintf(stderr, "                    -b                     : Build an OSG::BillBoard\n");
