@@ -1,5 +1,5 @@
 # osgLod
-Build an osg::LOD, osg::PaggedLOD, osg::Group or osgBillboard node from a set of external object models. 
+Build an osg::LOD, osg::PaggedLOD, osg::Group or osg::Billboard node from a set of external object models. 
 
 ## Requires
 * OpenSceneGraph
